@@ -1,3 +1,26 @@
+def create_patient(first, last, age, gender, diag, tsh_list):
+    """Create dictionary for a single patient
+
+    Args:
+        first (string): first name of patient
+        last (string): last name of patient
+        age (int): age of patient
+        gender (string): gender of patient
+        diag (string): patient diagnosis
+        tsh_list (string): list of TSH values
+
+    Returns:
+        string: the diagnosis
+    """
+    patient = {"First Name":  first,
+               "Last Name":  last,
+               "Age":  age,
+               "Gender": gender,
+               "Diagnosis": diag,
+               "TSH": tsh_list}
+    return patient
+
+
 def diagnose(tsh_list):
     """Determines thyroid condition of patient based on TSH results
 
