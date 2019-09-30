@@ -7,10 +7,10 @@ def create_patient(first, last, age, gender, diag, tsh_list):
         age (int): age of patient
         gender (string): gender of patient
         diag (string): patient diagnosis
-        tsh_list (string): list of TSH values
+        tsh_list (float): list of TSH values
 
     Returns:
-        string: the diagnosis
+        dictionary: patient
     """
     patient = {"First Name":  first,
                "Last Name":  last,
@@ -29,18 +29,18 @@ def diagnose(tsh_list):
     "normal thyroid function": all test results are b/w 1.0 and 4.0, inclusive
 
     Args:
-        tsh_list (string): list of TSH values
+        tsh_list (float): list of TSH values
 
     Returns:
         string: the diagnosis
     """
     is_normal = True
     for tsh in tsh_list:
-        if float(tsh) < 1.0:
+        if tsh < 1.0:
             diag = "hyperthyroidism"
             is_normal = False
             break
-        elif float(tsh) > 4.0:
+        elif tsh > 4.0:
             diag = "hypothyroidism"
             is_normal = False
             break
@@ -70,8 +70,11 @@ def import_data(filename):
         last = name[1]
         age = int(f.readline())
         gender = f.readline().strip()
-        tsh_list = f.readline().strip().split(",")
-        tsh_list.pop(0)
+        tsh_values = f.readline().strip().split(",")
+        tsh_values.pop(0)
+        tsh_list = []
+        for val in tsh_values:
+            tsh_list.append(float(val))
         diag = diagnose(tsh_list)
 
 
