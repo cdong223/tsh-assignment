@@ -86,10 +86,10 @@ def import_data(filename):
     """
     f = open(filename, "r")
     file_end = False
-    while file_end == False:
+    while file_end is False:
         name_input = f.readline().strip()
         if name_input == "END":
-            file_end == True
+            file_end = True
             break
         age = int(f.readline().strip())
         gender = f.readline().strip()
