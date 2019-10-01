@@ -49,8 +49,34 @@ def diagnose(tsh_list):
     return diag
 
 
+def format_data(name_input, age, gender, tsh):
+    """Formats imported data for each patient
+
+    Args:
+        name_input (string): first and last name of patient
+        age (int): age of patient
+        gender (string): gender of patient
+        tsh (string): all TSH results for patient
+
+    Returns:
+        None
+    """
+    name_input = name_input.strip()
+    name = name_input.split(" ")
+    first = name[0]
+    last = name[1]
+    gender = gender.strip()
+    tsh = tsh.strip()
+    tsh_values = tsh.split(",")
+    tsh_values.pop(0)
+    tsh_list = []
+    for val in tsh_values:
+        tsh_list.append(float(val))
+    diag = diagnose(tsh_list)
+
+
 def import_data(filename):
-    """Parses data file and pulls data for each patient listed
+    """Parses file and pulls data for each patient listed
 
     Args:
         filename (string): name of file to be parsed
@@ -65,17 +91,10 @@ def import_data(filename):
         if name_input == "END":
             file_end = True
             break
-        name = name_input.split(" ")
-        first = name[0]
-        last = name[1]
-        age = int(f.readline())
+        age = int(f.readline().strip())
         gender = f.readline().strip()
-        tsh_values = f.readline().strip().split(",")
-        tsh_values.pop(0)
-        tsh_list = []
-        for val in tsh_values:
-            tsh_list.append(float(val))
-        diag = diagnose(tsh_list)
+        tsh = f.readline().strip()
+        format_data(name_input, age, gender, tsh)
 
 
 if __name__ == "__main__":
