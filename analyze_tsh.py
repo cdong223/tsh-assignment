@@ -1,4 +1,5 @@
 import json
+import pudb
 
 
 def create_patient(first, last, age, gender, diag, tsh_list):
@@ -73,25 +74,29 @@ def diagnose(tsh_list):
     return diag
 
 
-def format_data(name_input, age, gender, tsh):
+def format_data(name_input, age_input, gender_input, tsh_input):
     """Formats imported data for each patient
 
     Args:
         name_input (string): first and last name of patient
-        age (int): age of patient
-        gender (string): gender of patient
-        tsh (string): all TSH results for patient
+        age_input (string): age of patient
+        gender_input (string): gender of patient
+        tsh_input (string): all TSH results for patient
 
     Returns:
-        None
+        first (string): first name of patient
+        last (string): last name of patient
+        age (int): age of patient
+        gender (string): gender of patient
+        diag (string): patient diagnosis
+        tsh_list (float): list of TSH values
     """
-    name_input = name_input.strip()
-    name = name_input.split(" ")
+    name = name_input.strip().split(" ")
     first = name[0]
     last = name[1]
-    gender = gender.strip()
-    tsh = tsh.strip()
-    tsh_values = tsh.split(",")
+    age = int(age_input.strip())
+    gender = gender_input.strip()
+    tsh_values = tsh_input.strip().split(",")
     tsh_values.pop(0)
     tsh_list = []
     for val in tsh_values:
@@ -99,6 +104,7 @@ def format_data(name_input, age, gender, tsh):
     tsh_list.sort()
     diag = diagnose(tsh_list)
     output_patient(first, last, age, gender, diag, tsh_list)
+    return first, last, age, gender, diag, tsh_list
 
 
 def import_data(filename):
@@ -113,14 +119,14 @@ def import_data(filename):
     f = open(filename, "r")
     file_end = False
     while file_end is False:
-        name_input = f.readline().strip()
-        if name_input == "END":
+        name_input = f.readline()
+        if name_input == "END\n":
             file_end = True
             break
-        age = int(f.readline().strip())
-        gender = f.readline().strip()
-        tsh = f.readline().strip()
-        format_data(name_input, age, gender, tsh)
+        age_input = f.readline()
+        gender_input = f.readline()
+        tsh_input = f.readline()
+        format_data(name_input, age_input, gender_input, tsh_input)
 
 
 if __name__ == "__main__":
