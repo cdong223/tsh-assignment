@@ -1,3 +1,6 @@
+import json
+
+
 def create_patient(first, last, age, gender, diag, tsh_list):
     """Create dictionary for a single patient
 
@@ -19,6 +22,27 @@ def create_patient(first, last, age, gender, diag, tsh_list):
                "Diagnosis": diag,
                "TSH": tsh_list}
     return patient
+
+
+def output_patient(first, last, age, gender, diag, tsh_list):
+    """Outputs patient data into respective JSON files
+
+    Args:
+        first (string): first name of patient
+        last (string): last name of patient
+        age (int): age of patient
+        gender (string): gender of patient
+        diag (string): patient diagnosis
+        tsh_list (float): list of TSH values
+
+    Returns:
+        None
+    """
+    patient = create_patient(first, last, age, gender, diag, tsh_list)
+    out_file = open("{}-{}.json".format(first, last), "w")
+    json.dump(patient, out_file)
+    out_file.close()
+    return
 
 
 def diagnose(tsh_list):
@@ -72,7 +96,9 @@ def format_data(name_input, age, gender, tsh):
     tsh_list = []
     for val in tsh_values:
         tsh_list.append(float(val))
+    tsh_list.sort()
     diag = diagnose(tsh_list)
+    output_patient(first, last, age, gender, diag, tsh_list)
 
 
 def import_data(filename):
